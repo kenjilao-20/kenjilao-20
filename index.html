@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developer Portfolio | Your Name</title>
+    <title>Kenji Manuel Lao | IT Student Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
@@ -330,125 +330,208 @@
             color: var(--primary-color);
         }
         
-        /* Experience Section */
-        .timeline {
-            position: relative;
+        /* Certificates Gallery Section */
+        .certificates-section {
+            background-color: white;
+        }
+        
+        .certificates-intro {
+            text-align: center;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 0 auto 3rem;
         }
         
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 4px;
+        .gallery-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 20px;
             background-color: var(--light-gray);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -2px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
         
-        .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            width: 50%;
-            box-sizing: border-box;
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
         }
         
-        .timeline-item:nth-child(odd) {
-            left: 0;
-        }
-        
-        .timeline-item:nth-child(even) {
-            left: 50%;
-        }
-        
-        .timeline-content {
-            padding: 20px;
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-        
-        .timeline-date {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        .timeline-content h3 {
-            margin-bottom: 0.5rem;
-        }
-        
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: white;
-            border: 4px solid var(--primary-color);
-            border-radius: 50%;
-            top: 15px;
-            z-index: 1;
-        }
-        
-        .timeline-item:nth-child(odd)::after {
-            right: -10px;
-        }
-        
-        .timeline-item:nth-child(even)::after {
-            left: -10px;
-        }
-        
-        /* Projects Section */
-        .projects-section {
-            background-color: var(--light-color);
-        }
-        
-        .projects-grid {
+        .certificates-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 2rem;
+            margin-bottom: 3rem;
         }
         
-        .project-card {
-            background-color: white;
+        .certificate-card {
+            background-color: var(--light-color);
             border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: var(--box-shadow);
             transition: transform 0.3s ease;
+            border-left: 4px solid var(--primary-color);
         }
         
-        .project-card:hover {
-            transform: translateY(-10px);
+        .certificate-card:hover {
+            transform: translateY(-5px);
         }
         
-        .project-img {
-            height: 200px;
-            background-color: var(--light-gray);
+        .certificate-img-container {
+            height: 220px;
+            overflow: hidden;
+            background-color: #f1f5f9;
+            position: relative;
+        }
+        
+        .certificate-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .certificate-card:hover .certificate-img {
+            transform: scale(1.05);
+        }
+        
+        .certificate-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--gray-color);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
-        .project-content {
+        .certificate-card:hover .certificate-overlay {
+            opacity: 1;
+        }
+        
+        .view-btn {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .certificate-content {
             padding: 1.5rem;
         }
         
-        .project-tech {
+        .certificate-provider {
+            color: var(--gray-color);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .certificate-date {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .certificate-skills {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin: 1rem 0;
+            margin-top: 1rem;
         }
         
-        .tech-tag {
-            background-color: var(--light-gray);
+        .skill-tag {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary-color);
             padding: 4px 10px;
             border-radius: 50px;
             font-size: 0.8rem;
             font-weight: 500;
+        }
+        
+        /* Lightbox Modal */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        
+        .lightbox-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        
+        .lightbox-prev, .lightbox-next {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+        
+        .lightbox-prev:hover, .lightbox-next:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
         
         /* Contact Section */
@@ -505,6 +588,25 @@
             transform: translateY(-3px);
         }
         
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
         /* Footer */
         footer {
             background-color: var(--secondary-color);
@@ -532,23 +634,8 @@
                 gap: 3rem;
             }
             
-            .timeline::after {
-                left: 31px;
-            }
-            
-            .timeline-item {
-                width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
-            }
-            
-            .timeline-item:nth-child(even) {
-                left: 0;
-            }
-            
-            .timeline-item:nth-child(odd)::after, 
-            .timeline-item:nth-child(even)::after {
-                left: 21px;
+            .certificates-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             }
         }
         
@@ -602,6 +689,15 @@
             .about-stats {
                 grid-template-columns: 1fr;
             }
+            
+            .certificates-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-controls {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -616,6 +712,7 @@
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#skills">Skills</a></li>
+                    <li><a href="#certificates">Certificates</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
                 
@@ -632,10 +729,10 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <h1>Hi, I'm <span class="highlight">Kenji Manuel Lao</span></h1>
-                    <h2>IT Student</h2>
+                    <h2>IT Student | Game Development</h2>
                     <p>Passionate 2nd year IT student specializing in game development with hands-on experience in building interactive web applications and game prototypes. I combine technical skills with creative problem-solving to bring ideas to life.</p>
                     <div class="hero-btns">
-                        <a href="#projects" class="btn">View My Work</a>
+                        <a href="#certificates" class="btn">View Certificates</a>
                         <a href="#contact" class="btn btn-outline">Contact Me</a>
                     </div>
                 </div>
@@ -666,17 +763,27 @@
             <div class="about-content">
                 <div class="about-text">
                     <p>I'm a dedicated 2nd year IT student specializing in Game Development, currently pursuing my degree while building practical skills through personal projects and coursework. My focus is on creating engaging interactive experiences through code.</p>
-    <p>My journey in programming began with web technologies, and has expanded to include game development fundamentals, database management, and multiple programming paradigms. I enjoy tackling challenging problems and seeing my code come to life in interactive applications.</p>
-    <p>When I'm not studying or coding, I participate in game jams, contribute to open-source projects, and explore new game engines and development tools to expand my technical toolkit.</p>
-
+                    <p>My journey in programming began with web technologies, and has expanded to include game development fundamentals, database management, and multiple programming paradigms. I enjoy tackling challenging problems and seeing my code come to life in interactive applications.</p>
+                    <p>When I'm not studying or coding, I participate in game jams, contribute to open-source projects, and explore new game engines and development tools to expand my technical toolkit.</p>
                 </div>
                 
-                
+                <div class="about-stats">
                     <div class="stat-item">
                         <div class="stat-number">20+</div>
                         <div class="stat-text">Projects Completed</div>
                     </div>
-                    
+                    <div class="stat-item">
+                        <div class="stat-number">6</div>
+                        <div class="stat-text">Programming Languages</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">6</div>
+                        <div class="stat-text">Certifications</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3</div>
+                        <div class="stat-text">Game Jams</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -692,49 +799,219 @@
             
             <div class="skills-container">
                 <div class="skill-category">
-                    <h3><i class="fas fa-code"></i> Frontend Development</h3>
+                    <h3><i class="fas fa-code"></i> Programming Languages</h3>
                     <div class="skill-items">
                         <div class="skill-item"><i class="fab fa-html5"></i> HTML</div>
                         <div class="skill-item"><i class="fab fa-css3-alt"></i> CSS</div>
                         <div class="skill-item"><i class="fab fa-js"></i> JavaScript</div>
-        		<div class="skill-item"><i class="fab fa-python"></i> Python</div>
-                    </div>
-                </div>
-                
-                <div class="skill-category">
-                    <h3><i class="fas fa-server"></i> Backend & Databases</h3>
-                    <div class="skill-items">
-                        <div class="skill-item"><i class="fab fa-node-js"></i> Node.js</div>
                         <div class="skill-item"><i class="fab fa-python"></i> Python</div>
-                        <div class="skill-item"><i class="fas fa-database"></i> MySQL</div>
-  			<div class="skill-item"><i class="fab fa-css3-alt"></i> C++</div>
+                        <div class="skill-item"><i class="fas fa-code"></i> Java</div>
+                        <div class="skill-item"><i class="fas fa-code"></i> C++</div>
                     </div>
                 </div>
                 
                 <div class="skill-category">
-                    <h3><i class="fas fa-tools"></i> Tools & DevOps</h3>
+                    <h3><i class="fas fa-database"></i> Databases & Tools</h3>
                     <div class="skill-items">
+                        <div class="skill-item"><i class="fas fa-database"></i> MySQL</div>
+                        <div class="skill-item"><i class="fab fa-node-js"></i> Node.js</div>
                         <div class="skill-item"><i class="fab fa-git-alt"></i> Git</div>
                         <div class="skill-item"><i class="fab fa-github"></i> GitHub</div>
-          		<div class="skill-item"><i class="fab fa-github"></i> Visual Studio</div>
+                        <div class="skill-item"><i class="fas fa-code"></i> Visual Studio</div>
+                        <div class="skill-item"><i class="fas fa-gamepad"></i> Unity Basics</div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fas fa-gamepad"></i> Game Development</h3>
+                    <div class="skill-items">
+                        <div class="skill-item"><i class="fas fa-cube"></i> 2D/3D Design</div>
+                        <div class="skill-item"><i class="fas fa-puzzle-piece"></i> Game Mechanics</div>
+                        <div class="skill-item"><i class="fas fa-user-friends"></i> Multiplayer Basics</div>
+                        <div class="skill-item"><i class="fas fa-mobile-alt"></i> Mobile Game Dev</div>
+                        <div class="skill-item"><i class="fas fa-paint-brush"></i> UI/UX Design</div>
                     </div>
                 </div>
                 
                 <div class="skill-category">
                     <h3><i class="fas fa-network-wired"></i> IT & Other Skills</h3>
                     <div class="skill-items">
-                       
                         <div class="skill-item"><i class="fas fa-project-diagram"></i> System Design</div>
                         <div class="skill-item"><i class="fas fa-chart-bar"></i> Data Analysis</div>
                         <div class="skill-item"><i class="fas fa-mobile-alt"></i> Responsive Design</div>
                         <div class="skill-item"><i class="fas fa-search"></i> Problem Solving</div>
+                        <div class="skill-item"><i class="fas fa-users"></i> Team Collaboration</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Certificates Gallery Section -->
+    <section id="certificates" class="certificates-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Certifications & Achievements</h2>
+                <p>Professional certifications and academic achievements</p>
+            </div>
+            
+            <div class="certificates-intro">
+                <p>Browse through my professional certifications and achievements. Click on any certificate to view it in full size.</p>
+            </div>
+            
+            <div class="gallery-controls">
+                <button class="filter-btn active" data-filter="all">All Certificates</button>
+                <button class="filter-btn" data-filter="networking">Networking</button>
+                <button class="filter-btn" data-filter="tesda">TESDA</button>
+                <button class="filter-btn" data-filter="systems">Computer Systems</button>
+            </div>
+            
+            <div class="certificates-grid">
+                <!-- Certificate 1: Networking Basics -->
+                <div class="certificate-card" data-category="networking">
+                    <div class="certificate-img-container">
+                        <img src="images/pic1.png" alt="Networking Basics Certificate" class="certificate-img">
+                        <div class="certificate-overlay">
 
+                        </div>
+                    </div>
+                    <div class="certificate-content">
+                        <h3>Networking Basics</h3>
+                        <div class="certificate-provider">Netacad</div>
+                        <div class="certificate-date">Issued: 2025</div>
+                        <p>Completed comprehensive course covering the foundation of networking and network devices, media, and protocols. You will observe data flowing through a network and configure devices to connect to networks.</p>
+                        <div class="certificate-skills">
+                            <span class="skill-tag">Networking</span>
+                            <span class="skill-tag">Cisco Packet Tracer</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certificate 2: Introduction to CSS -->
+                <div class="certificate-card" data-category="tesda">
+                    <div class="certificate-img-container">
+                        <img src="images/pic2.png" alt="Introduction to CSS Certificate" class="certificate-img">
+                        <div class="certificate-overlay">
+
+                        </div>
+                    </div>
+                    <div class="certificate-content">
+                        <h3>Introduction to CSS</h3>
+                        <div class="certificate-provider">TESDA</div>
+                        <div class="certificate-date">Issued: 2024</div>
+                        <p>Completed the prerequisite module for Computer Systems Servicing NC II. This course covers fundamental computer concepts and system servicing basics.</p>
+                        <div class="certificate-skills">
+                            <span class="skill-tag">Computer Fundamentals</span>
+                            <span class="skill-tag">CSS</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certificate 3: Installing and Configuring Computer Systems -->
+                <div class="certificate-card" data-category="systems">
+                    <div class="certificate-img-container">
+                        <img src="images/pic3.png" alt="Installing and Configuring Computer Systems Certificate" class="certificate-img">
+                        <div class="certificate-overlay">
+
+                        </div>
+                    </div>
+                    <div class="certificate-content">
+                        <h3>Installing and Configuring Computer Systems</h3>
+                        <div class="certificate-provider">TESDA</div>
+                        <div class="certificate-date">Issued: 2024</div>
+                        <p>Completed module about installing and configuring computer hardware and software, including system setup, driver installation, and basic troubleshooting.</p>
+                        <div class="certificate-skills">
+                            <span class="skill-tag">Computer System</span>
+                            <span class="skill-tag">Hardware</span>
+                            <span class="skill-tag">Software</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certificate 4: Setting Up Computer Networks -->
+                <div class="certificate-card" data-category="networking">
+                    <div class="certificate-img-container">
+                        <img src="images/pic4.png" alt="Setting Up Computer Networks Certificate" class="certificate-img">
+                        <div class="certificate-overlay">
+
+                        </div>
+                    </div>
+                    <div class="certificate-content">
+                        <h3>Setting Up Computer Networks</h3>
+                        <div class="certificate-provider">TESDA</div>
+                        <div class="certificate-date">Issued: 2024</div>
+                        <p>Completed comprehensive module on setting up computer networks, including network design, cable installation, router configuration, and network troubleshooting.</p>
+                        <div class="certificate-skills">
+                            <span class="skill-tag">Computer Networks</span>
+                            <span class="skill-tag">Network Setup</span>
+                            <span class="skill-tag">Troubleshooting</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certificate 5: Setting Up Computer Servers -->
+                <div class="certificate-card" data-category="systems">
+                    <div class="certificate-img-container">
+                        <img src="images/pic5.png" alt="Setting Up Computer Servers Certificate" class="certificate-img">
+                        <div class="certificate-overlay">
+
+                        </div>
+                    </div>
+                    <div class="certificate-content">
+                        <h3>Setting Up Computer Servers</h3>
+                        <div class="certificate-provider">TESDA</div>
+                        <div class="certificate-date">Issued: 2024</div>
+                        <p>Completed module on setting up computer servers, including server installation, configuration, user management, and server maintenance.</p>
+                        <div class="certificate-skills">
+                            <span class="skill-tag">Computer Server</span>
+                            <span class="skill-tag">Server Configuration</span>
+                            <span class="skill-tag">User Management</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certificate 6: Maintaining Computer Systems and Networks -->
+                <div class="certificate-card" data-category="systems">
+                    <div class="certificate-img-container">
+                        <img src="images/pic6.png" alt="Maintaining Computer Systems and Networks Certificate" class="certificate-img">
+                        <div class="certificate-overlay">
+
+                        </div>
+                    </div>
+                    <div class="certificate-content">
+                        <h3>Maintaining Computer Systems and Networks</h3>
+                        <div class="certificate-provider">TESDA</div>
+                        <div class="certificate-date">Issued: 2024</div>
+                        <p>Completed comprehensive module on maintaining computer systems and networks, including preventive maintenance, system optimization, and network security basics.</p>
+                        <div class="certificate-skills">
+                            <span class="skill-tag">Computer System</span>
+                            <span class="skill-tag">Computer Network</span>
+                            <span class="skill-tag">Maintenance</span>
+                            <span class="skill-tag">Troubleshooting</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox-modal" id="lightboxModal">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="lightbox-nav">
+                <button class="lightbox-prev" id="lightboxPrev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="lightbox-next" id="lightboxNext">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <img id="lightboxImage" class="lightbox-img" src="" alt="Certificate">
+        </div>
+    </div>
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
@@ -777,10 +1054,10 @@
                     </div>
                     
                     <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-codepen"></i></a>
+                        <a href="https://github.com/yourusername" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="https://linkedin.com/in/yourusername" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://itch.io/yourprofile" class="social-link"><i class="fas fa-gamepad"></i></a>
+                        <a href="https://codepen.io/yourusername" class="social-link"><i class="fab fa-codepen"></i></a>
                     </div>
                 </div>
                 
@@ -869,9 +1146,116 @@
                 }
             });
         });
+        
+        // Certificate Gallery Filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const certificateCards = document.querySelectorAll('.certificate-card');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                const filter = button.getAttribute('data-filter');
+                
+                certificateCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Lightbox functionality
+        const lightboxModal = document.getElementById('lightboxModal');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxClose = document.getElementById('lightboxClose');
+        const lightboxPrev = document.getElementById('lightboxPrev');
+        const lightboxNext = document.getElementById('lightboxNext');
+        const viewButtons = document.querySelectorAll('.view-btn');
+        
+        let currentImageIndex = 0;
+        const certificateImages = [
+            'images/pic1.jpg',
+            'images/pic2.jpg',
+            'images/pic3.jpg',
+            'images/pic4.jpg',
+            'images/pic5.jpg',
+            'images/pic6.jpg'
+        ];
+        
+        // Open lightbox
+        viewButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                currentImageIndex = index;
+                updateLightboxImage();
+                lightboxModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
+        });
+        
+        // Close lightbox
+        lightboxClose.addEventListener('click', () => {
+            lightboxModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        });
+        
+        // Close lightbox when clicking outside the image
+        lightboxModal.addEventListener('click', (e) => {
+            if (e.target === lightboxModal) {
+                lightboxModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightboxModal.style.display === 'flex') {
+                lightboxModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Navigation in lightbox
+        lightboxPrev.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + certificateImages.length) % certificateImages.length;
+            updateLightboxImage();
+        });
+        
+        lightboxNext.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % certificateImages.length;
+            updateLightboxImage();
+        });
+        
+        // Keyboard navigation in lightbox
+        document.addEventListener('keydown', (e) => {
+            if (lightboxModal.style.display !== 'flex') return;
+            
+            if (e.key === 'ArrowLeft') {
+                currentImageIndex = (currentImageIndex - 1 + certificateImages.length) % certificateImages.length;
+                updateLightboxImage();
+            } else if (e.key === 'ArrowRight') {
+                currentImageIndex = (currentImageIndex + 1) % certificateImages.length;
+                updateLightboxImage();
+            }
+        });
+        
+        function updateLightboxImage() {
+            lightboxImage.src = certificateImages[currentImageIndex];
+            lightboxImage.alt = `Certificate ${currentImageIndex + 1}`;
+        }
+        
+        // Preload images for better lightbox experience
+        window.addEventListener('load', () => {
+            certificateImages.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+        });
     </script>
 </body>
 </html>
-
-
-
