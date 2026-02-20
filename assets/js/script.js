@@ -1,639 +1,501 @@
-// Theme Toggle
+/* ═══════════════════════════════════════════════════════════════
+   THEME TOGGLE
+═══════════════════════════════════════════════════════════════ */
 const themeToggle = document.getElementById('themeToggle');
-const themeIcon = themeToggle.querySelector('i');
-const themeText = themeToggle.querySelector('span');
+const themeIcon   = themeToggle.querySelector('i');
+const themeText   = themeToggle.querySelector('span');
 
-// Check for saved theme or prefer-color-scheme
-const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-const currentTheme = localStorage.getItem('theme');
+// Apply saved theme on load
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'light') {
+  document.body.classList.replace('dark-mode', 'light-mode');
+  themeIcon.classList.replace('fa-moon', 'fa-sun');
+  themeText.textContent = 'Light Mode';
+}
 
-// Set initial theme
-if (currentTheme === 'light' || (!currentTheme && !prefersDarkScheme.matches)) {
+themeToggle.addEventListener('click', () => {
+  const isDark = document.body.classList.contains('dark-mode');
+  if (isDark) {
     document.body.classList.replace('dark-mode', 'light-mode');
     themeIcon.classList.replace('fa-moon', 'fa-sun');
     themeText.textContent = 'Light Mode';
-} else {
-    document.body.classList.add('dark-mode');
-    themeIcon.classList.add('fa-moon');
+    localStorage.setItem('theme', 'light');
+  } else {
+    document.body.classList.replace('light-mode', 'dark-mode');
+    themeIcon.classList.replace('fa-sun', 'fa-moon');
     themeText.textContent = 'Dark Mode';
-}
-
-// Toggle theme
-themeToggle.addEventListener('click', () => {
-    if (document.body.classList.contains('dark-mode')) {
-        document.body.classList.replace('dark-mode', 'light-mode');
-        themeIcon.classList.replace('fa-moon', 'fa-sun');
-        themeText.textContent = 'Light Mode';
-        localStorage.setItem('theme', 'light');
-    } else {
-        document.body.classList.replace('light-mode', 'dark-mode');
-        themeIcon.classList.replace('fa-sun', 'fa-moon');
-        themeText.textContent = 'Dark Mode';
-        localStorage.setItem('theme', 'dark');
-    }
+    localStorage.setItem('theme', 'dark');
+  }
 });
 
-// Mobile menu toggle
-document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-    document.querySelector('.nav-links').classList.toggle('active');
-    this.querySelector('i').classList.toggle('fa-bars');
-    this.querySelector('i').classList.toggle('fa-times');
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE MENU
+═══════════════════════════════════════════════════════════════ */
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const navLinks      = document.querySelector('.nav-links');
+
+mobileMenuBtn.addEventListener('click', function () {
+  navLinks.classList.toggle('active');
+  const icon = this.querySelector('i');
+  icon.classList.toggle('fa-bars');
+  icon.classList.toggle('fa-times');
 });
 
-// Close mobile menu when clicking on a link
+// Close on nav link click
 document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        document.querySelector('.nav-links').classList.remove('active');
-        document.querySelector('.mobile-menu-btn i').classList.remove('fa-times');
-        document.querySelector('.mobile-menu-btn i').classList.add('fa-bars');
-    });
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('active');
+    const icon = mobileMenuBtn.querySelector('i');
+    icon.classList.add('fa-bars');
+    icon.classList.remove('fa-times');
+  });
 });
 
-// Header scroll effect
-window.addEventListener('scroll', function() {
-    const header = document.getElementById('header');
-    if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
-    }
+/* ═══════════════════════════════════════════════════════════════
+   HEADER SCROLL EFFECT
+═══════════════════════════════════════════════════════════════ */
+window.addEventListener('scroll', () => {
+  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
 });
 
-// Form submission
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('Thank you for your message! I will get back to you soon.');
-    this.reset();
-});
-
-// Smooth scrolling for anchor links
+/* ═══════════════════════════════════════════════════════════════
+   SMOOTH SCROLL
+═══════════════════════════════════════════════════════════════ */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-        
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-            window.scrollTo({
-                top: targetElement.offsetTop - 80,
-                behavior: 'smooth'
-            });
-        }
-    });
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const targetId = this.getAttribute('href');
+    if (targetId === '#') return;
+    const target = document.querySelector(targetId);
+    if (target) {
+      window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+    }
+  });
 });
 
-// Certificate Gallery Filtering
-const filterButtons = document.querySelectorAll('.filter-btn');
+/* ═══════════════════════════════════════════════════════════════
+   SCROLL REVEAL (Intersection Observer)
+═══════════════════════════════════════════════════════════════ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      entry.target.style.transitionDelay = (i * 0.05) + 's';
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ═══════════════════════════════════════════════════════════════
+   CONTACT FORM
+═══════════════════════════════════════════════════════════════ */
+document.getElementById('contactForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  alert('Thank you for your message! I will get back to you soon.');
+  this.reset();
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   CERTIFICATE FILTER
+═══════════════════════════════════════════════════════════════ */
+const filterButtons    = document.querySelectorAll('.filter-btn');
 const certificateCards = document.querySelectorAll('.certificate-card');
 
 filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        // Remove active class from all buttons
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        // Add active class to clicked button
-        button.classList.add('active');
-        
-        const filter = button.getAttribute('data-filter');
-        
-        certificateCards.forEach(card => {
-            if (filter === 'all' || card.getAttribute('data-category') === filter) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
+  button.addEventListener('click', () => {
+    filterButtons.forEach(b => b.classList.remove('active'));
+    button.classList.add('active');
+
+    const filter = button.getAttribute('data-filter');
+    certificateCards.forEach(card => {
+      const match = filter === 'all' || card.getAttribute('data-category') === filter;
+      card.style.display = match ? 'block' : 'none';
     });
+  });
 });
 
-// Enhanced Certificate Modal
+/* ═══════════════════════════════════════════════════════════════
+   CERTIFICATE MODAL
+═══════════════════════════════════════════════════════════════ */
 const certificateModal = document.getElementById('certificateModal');
-const modalImage = document.getElementById('modalCertificateImage');
-const modalTitle = document.getElementById('modalCertificateTitle');
-const modalProvider = document.getElementById('modalCertificateProvider');
-const modalDate = document.getElementById('modalCertificateDate');
+const modalImage       = document.getElementById('modalCertificateImage');
+const modalTitle       = document.getElementById('modalCertificateTitle');
+const modalProvider    = document.getElementById('modalCertificateProvider');
+const modalDate        = document.getElementById('modalCertificateDate');
 const modalDescription = document.getElementById('modalCertificateDescription');
-const modalSkills = document.getElementById('modalCertificateSkills');
-const modalClose = document.getElementById('certificateModalClose');
-const modalPrev = document.getElementById('modalPrev');
-const modalNext = document.getElementById('modalNext');
+const modalSkills      = document.getElementById('modalCertificateSkills');
+const modalClose       = document.getElementById('certificateModalClose');
+const modalPrev        = document.getElementById('modalPrev');
+const modalNext        = document.getElementById('modalNext');
 
 let currentModalIndex = 0;
-let filteredCertificates = Array.from(certificateCards);
 
-// Certificate data array
 const certificateData = [
-    {
-        title: "Networking Basics",
-        provider: "Netacad",
-        date: "Issued: 2025",
-        image: "assets/images/pic1.png",
-        description: "Completed comprehensive course covering the foundation of networking and network devices, media, and protocols. You will observe data flowing through a network and configure devices to connect to networks.",
-        skills: ["Networking", "Cisco Packet Tracer"]
-    },
-    {
-        title: "Introduction to CSS",
-        provider: "TESDA",
-        date: "Issued: 2024",
-        image: "assets/images/pic2.png",
-        description: "Completed the prerequisite module for Computer Systems Servicing NC II. This course covers fundamental computer concepts and system servicing basics.",
-        skills: ["Computer Fundamentals", "CSS"]
-    },
-    {
-        title: "Installing and Configuring Computer Systems",
-        provider: "TESDA",
-        date: "Issued: 2024",
-        image: "assets/images/pic3.png",
-        description: "Completed module about installing and configuring computer hardware and software, including system setup, driver installation, and basic troubleshooting.",
-        skills: ["Computer System", "Hardware", "Software"]
-    },
-    {
-        title: "Setting Up Computer Networks",
-        provider: "TESDA",
-        date: "Issued: 2024",
-        image: "assets/images/pic4.png",
-        description: "Completed comprehensive module on setting up computer networks, including network design, cable installation, router configuration, and network troubleshooting.",
-        skills: ["Computer Networks", "Network Setup", "Troubleshooting"]
-    },
-    {
-        title: "Setting Up Computer Servers",
-        provider: "TESDA",
-        date: "Issued: 2024",
-        image: "assets/images/pic5.png",
-        description: "Completed module on setting up computer servers, including server installation, configuration, user management, and server maintenance.",
-        skills: ["Computer Server", "Server Configuration", "User Management"]
-    },
-    {
-        title: "Maintaining Computer Systems and Networks",
-        provider: "TESDA",
-        date: "Issued: 2024",
-        image: "assets/images/pic6.png",
-        description: "Completed comprehensive module on maintaining computer systems and networks, including preventive maintenance, system optimization, and network security basics.",
-        skills: ["Computer System", "Computer Network", "Maintenance", "Troubleshooting"]
-    }
+  {
+    title:       'Networking Basics',
+    provider:    'Netacad',
+    date:        'Issued: 2025',
+    image:       'assets/images/pic1.png',
+    description: 'Completed comprehensive course covering the foundation of networking and network devices, media, and protocols. You will observe data flowing through a network and configure devices to connect to networks.',
+    skills:      ['Networking', 'Cisco Packet Tracer']
+  },
+  {
+    title:       'Introduction to CSS',
+    provider:    'TESDA',
+    date:        'Issued: 2024',
+    image:       'assets/images/pic2.png',
+    description: 'Completed the prerequisite module for Computer Systems Servicing NC II. This course covers fundamental computer concepts and system servicing basics.',
+    skills:      ['Computer Fundamentals', 'CSS']
+  },
+  {
+    title:       'Installing and Configuring Computer Systems',
+    provider:    'TESDA',
+    date:        'Issued: 2024',
+    image:       'assets/images/pic3.png',
+    description: 'Completed module about installing and configuring computer hardware and software, including system setup, driver installation, and basic troubleshooting.',
+    skills:      ['Computer System', 'Hardware', 'Software']
+  },
+  {
+    title:       'Setting Up Computer Networks',
+    provider:    'TESDA',
+    date:        'Issued: 2024',
+    image:       'assets/images/pic4.png',
+    description: 'Completed comprehensive module on setting up computer networks, including network design, cable installation, router configuration, and network troubleshooting.',
+    skills:      ['Computer Networks', 'Network Setup', 'Troubleshooting']
+  },
+  {
+    title:       'Setting Up Computer Servers',
+    provider:    'TESDA',
+    date:        'Issued: 2024',
+    image:       'assets/images/pic5.png',
+    description: 'Completed module on setting up computer servers, including server installation, configuration, user management, and server maintenance.',
+    skills:      ['Computer Server', 'Server Configuration', 'User Management']
+  },
+  {
+    title:       'Maintaining Computer Systems and Networks',
+    provider:    'TESDA',
+    date:        'Issued: 2024',
+    image:       'assets/images/pic6.png',
+    description: 'Completed comprehensive module on maintaining computer systems and networks, including preventive maintenance, system optimization, and network security basics.',
+    skills:      ['Computer System', 'Computer Network', 'Maintenance', 'Troubleshooting']
+  }
 ];
 
-// Open modal when clicking on certificate card or view button
-certificateCards.forEach((card, index) => {
-    const viewBtn = card.querySelector('.view-btn');
-    const cardImage = card.querySelector('.certificate-img');
-    
-    // Open modal when clicking anywhere on the card
-    card.addEventListener('click', (e) => {
-        // Don't open if clicking the filter button
-        if (!e.target.closest('.filter-btn')) {
-            openCertificateModal(index);
-        }
+// Open modal on card click
+certificateCards.forEach(card => {
+  card.addEventListener('click', () => {
+    openCertificateModal(parseInt(card.getAttribute('data-index')));
+  });
+
+  // View button inside card
+  const viewBtn = card.querySelector('.view-btn');
+  if (viewBtn) {
+    viewBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      openCertificateModal(parseInt(card.getAttribute('data-index')));
     });
-    
-    // Also allow clicking the view button
-    if (viewBtn) {
-        viewBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent card click event
-            openCertificateModal(index);
-        });
-    }
-    
-    // Also allow clicking the image
-    if (cardImage) {
-        cardImage.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent card click event
-            openCertificateModal(index);
-        });
-    }
+  }
 });
 
 function openCertificateModal(index) {
-    currentModalIndex = index;
-    updateModalContent();
-    certificateModal.classList.add('show');
-    document.body.style.overflow = 'hidden';
+  currentModalIndex = index;
+  updateModalContent();
+  certificateModal.classList.add('show');
+  document.body.style.overflow = 'hidden';
 }
 
 function updateModalContent() {
-    const cert = certificateData[currentModalIndex];
-    
-    modalImage.src = cert.image;
-    modalImage.alt = cert.title;
-    modalTitle.textContent = cert.title;
-    modalProvider.textContent = cert.provider;
-    modalDate.textContent = cert.date;
-    modalDescription.textContent = cert.description;
-    
-    // Update skills
-    modalSkills.innerHTML = '';
-    cert.skills.forEach(skill => {
-        const skillTag = document.createElement('span');
-        skillTag.className = 'modal-skill-tag';
-        skillTag.textContent = skill;
-        modalSkills.appendChild(skillTag);
-    });
-    
-    // Update navigation button states
-    updateNavButtons();
+  const cert = certificateData[currentModalIndex];
+
+  modalImage.src           = cert.image;
+  modalImage.alt           = cert.title;
+  modalTitle.textContent   = cert.title;
+  modalProvider.textContent= cert.provider;
+  modalDate.textContent    = cert.date;
+  modalDescription.textContent = cert.description;
+
+  // Build skill tags
+  modalSkills.innerHTML = '';
+  cert.skills.forEach(skill => {
+    const tag = document.createElement('span');
+    tag.className   = 'modal-skill-tag';
+    tag.textContent = skill;
+    modalSkills.appendChild(tag);
+  });
+
+  // Nav button states
+  modalPrev.disabled = currentModalIndex === 0;
+  modalNext.disabled = currentModalIndex === certificateData.length - 1;
 }
-
-function updateNavButtons() {
-    modalPrev.disabled = currentModalIndex === 0;
-    modalNext.disabled = currentModalIndex === certificateData.length - 1;
-}
-
-// Close modal
-modalClose.addEventListener('click', () => {
-    closeCertificateModal();
-});
-
-// Close modal when clicking outside content
-certificateModal.addEventListener('click', (e) => {
-    if (e.target === certificateModal) {
-        closeCertificateModal();
-    }
-});
-
-// Close modal with Escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && certificateModal.classList.contains('show')) {
-        closeCertificateModal();
-    }
-});
 
 function closeCertificateModal() {
-    certificateModal.classList.remove('show');
-    document.body.style.overflow = 'auto';
+  certificateModal.classList.remove('show');
+  document.body.style.overflow = 'auto';
 }
 
-// Navigation between certificates
+// Close events
+modalClose.addEventListener('click', closeCertificateModal);
+certificateModal.addEventListener('click', e => {
+  if (e.target === certificateModal) closeCertificateModal();
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (!certificateModal.classList.contains('show')) return;
+  if (e.key === 'Escape')      closeCertificateModal();
+  if (e.key === 'ArrowLeft'  && currentModalIndex > 0)                         { currentModalIndex--; updateModalContent(); }
+  if (e.key === 'ArrowRight' && currentModalIndex < certificateData.length - 1){ currentModalIndex++; updateModalContent(); }
+});
+
+// Prev / Next buttons
 modalPrev.addEventListener('click', () => {
-    if (currentModalIndex > 0) {
-        currentModalIndex--;
-        updateModalContent();
-    }
+  if (currentModalIndex > 0) { currentModalIndex--; updateModalContent(); }
 });
-
 modalNext.addEventListener('click', () => {
-    if (currentModalIndex < certificateData.length - 1) {
-        currentModalIndex++;
-        updateModalContent();
-    }
+  if (currentModalIndex < certificateData.length - 1) { currentModalIndex++; updateModalContent(); }
 });
 
-// Keyboard navigation in modal
-document.addEventListener('keydown', (e) => {
-    if (!certificateModal.classList.contains('show')) return;
-    
-    if (e.key === 'ArrowLeft' && currentModalIndex > 0) {
-        currentModalIndex--;
-        updateModalContent();
-    } else if (e.key === 'ArrowRight' && currentModalIndex < certificateData.length - 1) {
-        currentModalIndex++;
-        updateModalContent();
-    }
-});
-
-// Update filtered certificates when filter changes
-filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const filter = button.getAttribute('data-filter');
-        
-        // Update filtered certificates array
-        if (filter === 'all') {
-            filteredCertificates = Array.from(certificateCards);
-        } else {
-            filteredCertificates = Array.from(certificateCards).filter(card => 
-                card.getAttribute('data-category') === filter
-            );
-        }
-    });
-});
-
-// Preload images for better experience
+// Preload certificate images
 window.addEventListener('load', () => {
-    certificateData.forEach(cert => {
-        const img = new Image();
-        img.src = cert.image;
-    });
+  certificateData.forEach(cert => {
+    const img = new Image();
+    img.src = cert.image;
+  });
 });
 
-// ========== SNAKE GAME IMPLEMENTATION ==========
+/* ═══════════════════════════════════════════════════════════════
+   SNAKE GAME
+═══════════════════════════════════════════════════════════════ */
 const snakeCanvas = document.getElementById('snakeGameCanvas');
-const snakeCtx = snakeCanvas.getContext('2d');
-const snakeScoreElement = document.getElementById('snakeScore');
-const snakeHighScoreElement = document.getElementById('snakeHighScore');
-const snakeFinalScoreElement = document.getElementById('snakeFinalScore');
-const snakeGameOverScreen = document.getElementById('snakeGameOverScreen');
+const snakeCtx    = snakeCanvas.getContext('2d');
 
-const SNAKE_TILE_SIZE = 16;
-const SNAKE_GRID_WIDTH = 25;
-const SNAKE_GRID_HEIGHT = 25;
-const INITIAL_GAME_SPEED = 120;
+// Constants
+const TILE        = 16;
+const COLS        = 25;
+const ROWS        = 25;
+const INIT_SPEED  = 120;
 
-let snake = [];
-let snakeFood = {};
-let snakeDirection = 'RIGHT';
-let snakeNextDirection = 'RIGHT';
-let snakeRunning = false;
-let snakeGameOver = false;
-let snakeScore = 0;
-let snakeHighScore = localStorage.getItem('snakeHighScore') || 0;
-let snakePaused = false;
-let snakeGameLoop = null;
-let snakeGameSpeed = INITIAL_GAME_SPEED;
+// State
+let snake       = [];
+let food        = {};
+let dir         = 'RIGHT';
+let nextDir     = 'RIGHT';
+let running     = false;
+let gameOver    = false;
+let paused      = false;
+let score       = 0;
+let gameLoop    = null;
+let speed       = INIT_SPEED;
+let highScore   = parseInt(localStorage.getItem('snakeHighScore')) || 0;
 
-function initSnakeGame() {
-    snakeCanvas.width = SNAKE_GRID_WIDTH * SNAKE_TILE_SIZE;
-    snakeCanvas.height = SNAKE_GRID_HEIGHT * SNAKE_TILE_SIZE;
-    setupMobileSnakeControls();
-    startSnakeGame();
-    snakeHighScoreElement.textContent = snakeHighScore;
+// Init on page load
+window.addEventListener('load', () => {
+  snakeCanvas.width  = COLS * TILE;
+  snakeCanvas.height = ROWS * TILE;
+  document.getElementById('snakeHighScore').textContent = highScore;
+  setupMobileControls();
+  startGame();
+});
+
+/* ── Mobile Controls ── */
+function setupMobileControls() {
+  const controls = {
+    snakeBtnUp:    () => { if (dir !== 'DOWN')  nextDir = 'UP';    },
+    snakeBtnDown:  () => { if (dir !== 'UP')    nextDir = 'DOWN';  },
+    snakeBtnLeft:  () => { if (dir !== 'RIGHT') nextDir = 'LEFT';  },
+    snakeBtnRight: () => { if (dir !== 'LEFT')  nextDir = 'RIGHT'; }
+  };
+
+  Object.entries(controls).forEach(([id, handler]) => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click',      () => { if (running && !paused) handler(); });
+    btn.addEventListener('touchstart', e  => { e.preventDefault(); if (running && !paused) handler(); });
+  });
 }
 
-function setupMobileSnakeControls() {
-    const btnUp = document.getElementById('snakeBtnUp');
-    const btnDown = document.getElementById('snakeBtnDown');
-    const btnLeft = document.getElementById('snakeBtnLeft');
-    const btnRight = document.getElementById('snakeBtnRight');
+/* ── Game Start ── */
+function startGame() {
+  snake    = [{ x: 5, y: 5 }, { x: 4, y: 5 }, { x: 3, y: 5 }];
+  dir      = 'RIGHT';
+  nextDir  = 'RIGHT';
+  score    = 0;
+  gameOver = false;
+  running  = true;
+  paused   = false;
+  speed    = INIT_SPEED;
 
-    // Prevent default touch behavior
-    [btnUp, btnDown, btnLeft, btnRight].forEach(btn => {
-        btn.addEventListener('touchstart', (e) => e.preventDefault());
-    });
+  document.getElementById('snakeScore').textContent = 0;
+  document.getElementById('snakeGameOverScreen').classList.remove('show');
 
-    btnUp.addEventListener('click', () => {
-        if (snakeRunning && !snakePaused && snakeDirection !== 'DOWN') snakeNextDirection = 'UP';
-    });
-
-    btnDown.addEventListener('click', () => {
-        if (snakeRunning && !snakePaused && snakeDirection !== 'UP') snakeNextDirection = 'DOWN';
-    });
-
-    btnLeft.addEventListener('click', () => {
-        if (snakeRunning && !snakePaused && snakeDirection !== 'RIGHT') snakeNextDirection = 'LEFT';
-    });
-
-    btnRight.addEventListener('click', () => {
-        if (snakeRunning && !snakePaused && snakeDirection !== 'LEFT') snakeNextDirection = 'RIGHT';
-    });
-
-    // Touch support for better mobile experience
-    btnUp.addEventListener('touchstart', (e) => {
-        if (snakeRunning && !snakePaused && snakeDirection !== 'DOWN') snakeNextDirection = 'UP';
-    });
-
-    btnDown.addEventListener('touchstart', (e) => {
-        if (snakeRunning && !snakePaused && snakeDirection !== 'UP') snakeNextDirection = 'DOWN';
-    });
-
-    btnLeft.addEventListener('touchstart', (e) => {
-        if (snakeRunning && !snakePaused && snakeDirection !== 'RIGHT') snakeNextDirection = 'LEFT';
-    });
-
-    btnRight.addEventListener('touchstart', (e) => {
-        if (snakeRunning && !snakePaused && snakeDirection !== 'LEFT') snakeNextDirection = 'RIGHT';
-    });
+  spawnFood();
+  if (gameLoop) clearInterval(gameLoop);
+  gameLoop = setInterval(tick, speed);
 }
 
-function startSnakeGame() {
-    snake = [
-        { x: 5, y: 5 },
-        { x: 4, y: 5 },
-        { x: 3, y: 5 }
-    ];
-    
-    snakeDirection = 'RIGHT';
-    snakeNextDirection = 'RIGHT';
-    snakeScore = 0;
-    snakeGameOver = false;
-    snakeRunning = true;
-    snakePaused = false;
-    snakeGameSpeed = INITIAL_GAME_SPEED;
-    
-    updateSnakeScore();
-    snakeGameOverScreen.classList.remove('show');
-    spawnSnakeFood();
-    
-    if (snakeGameLoop) clearInterval(snakeGameLoop);
-    snakeGameLoop = setInterval(updateSnakeGame, snakeGameSpeed);
+/* ── Food Spawn ── */
+function spawnFood() {
+  do {
+    food = {
+      x: Math.floor(Math.random() * COLS),
+      y: Math.floor(Math.random() * ROWS)
+    };
+  } while (snake.some(s => s.x === food.x && s.y === food.y));
 }
 
-function spawnSnakeFood() {
-    let validPosition = false;
-    while (!validPosition) {
-        snakeFood = {
-            x: Math.floor(Math.random() * SNAKE_GRID_WIDTH),
-            y: Math.floor(Math.random() * SNAKE_GRID_HEIGHT)
-        };
-        validPosition = !snake.some(segment => 
-            segment.x === snakeFood.x && segment.y === snakeFood.y
-        );
+/* ── Game Tick ── */
+function tick() {
+  if (!running || paused) return;
+
+  dir = nextDir;
+  const head = { ...snake[0] };
+
+  if      (dir === 'UP')    head.y--;
+  else if (dir === 'DOWN')  head.y++;
+  else if (dir === 'LEFT')  head.x--;
+  else if (dir === 'RIGHT') head.x++;
+
+  // Wall collision
+  if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) {
+    endGame(); return;
+  }
+  // Self collision
+  if (snake.some(s => s.x === head.x && s.y === head.y)) {
+    endGame(); return;
+  }
+
+  snake.unshift(head);
+
+  // Ate food
+  if (head.x === food.x && head.y === food.y) {
+    score += 10;
+    document.getElementById('snakeScore').textContent = score;
+
+    // Speed up every 50 points
+    if (score % 50 === 0 && speed > 60) {
+      speed -= 10;
+      clearInterval(gameLoop);
+      gameLoop = setInterval(tick, speed);
     }
+    spawnFood();
+  } else {
+    snake.pop();
+  }
+
+  draw();
 }
 
-function updateSnakeGame() {
-    if (!snakeRunning || snakePaused) return;
+/* ── Draw ── */
+function draw() {
+  // Background
+  snakeCtx.fillStyle = '#9bbc0f';
+  snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
 
-    snakeDirection = snakeNextDirection;
-    const head = { ...snake[0] };
+  // Grid
+  snakeCtx.strokeStyle = 'rgba(15, 56, 15, 0.1)';
+  snakeCtx.lineWidth   = 0.5;
+  for (let x = 0; x <= COLS; x++) {
+    snakeCtx.beginPath();
+    snakeCtx.moveTo(x * TILE, 0);
+    snakeCtx.lineTo(x * TILE, snakeCanvas.height);
+    snakeCtx.stroke();
+  }
+  for (let y = 0; y <= ROWS; y++) {
+    snakeCtx.beginPath();
+    snakeCtx.moveTo(0,                 y * TILE);
+    snakeCtx.lineTo(snakeCanvas.width, y * TILE);
+    snakeCtx.stroke();
+  }
 
-    switch (snakeDirection) {
-        case 'UP': head.y--; break;
-        case 'DOWN': head.y++; break;
-        case 'LEFT': head.x--; break;
-        case 'RIGHT': head.x++; break;
-    }
+  // Food
+  snakeCtx.fillStyle = '#0f380f';
+  snakeCtx.fillRect(food.x * TILE, food.y * TILE, TILE, TILE);
 
-    // Check wall collision
-    if (head.x < 0 || head.x >= SNAKE_GRID_WIDTH || 
-        head.y < 0 || head.y >= SNAKE_GRID_HEIGHT) {
-        endSnakeGame();
-        return;
-    }
-
-    // Check self collision
-    if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-        endSnakeGame();
-        return;
-    }
-
-    snake.unshift(head);
-
-    // Check if food is eaten
-    if (head.x === snakeFood.x && head.y === snakeFood.y) {
-        snakeScore += 10;
-        
-        // Increase speed every 50 points
-        if (snakeScore % 50 === 0 && snakeGameSpeed > 60) {
-            snakeGameSpeed -= 10;
-            clearInterval(snakeGameLoop);
-            snakeGameLoop = setInterval(updateSnakeGame, snakeGameSpeed);
-        }
-        
-        updateSnakeScore();
-        spawnSnakeFood();
-        
-        // Visual feedback
-        flashFoodEaten();
-    } else {
-        snake.pop();
-    }
-
-    drawSnakeGame();
+  // Snake segments
+  snake.forEach((seg, i) => {
+    snakeCtx.fillStyle   = i === 0 ? '#0f380f' : '#306230';
+    snakeCtx.fillRect(seg.x * TILE, seg.y * TILE, TILE, TILE);
+    snakeCtx.strokeStyle = i === 0 ? '#9bbc0f' : '#0f380f';
+    snakeCtx.lineWidth   = 1;
+    snakeCtx.strokeRect(seg.x * TILE, seg.y * TILE, TILE, TILE);
+  });
 }
 
-function drawSnakeGame() {
-    // Clear canvas
-    snakeCtx.fillStyle = '#9bbc0f';
-    snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+/* ── End Game ── */
+function endGame() {
+  running  = false;
+  gameOver = true;
+  clearInterval(gameLoop);
 
-    // Draw grid (subtle)
-    snakeCtx.strokeStyle = 'rgba(15, 56, 15, 0.1)';
-    snakeCtx.lineWidth = 0.5;
-    for (let x = 0; x <= SNAKE_GRID_WIDTH; x++) {
-        snakeCtx.beginPath();
-        snakeCtx.moveTo(x * SNAKE_TILE_SIZE, 0);
-        snakeCtx.lineTo(x * SNAKE_TILE_SIZE, snakeCanvas.height);
-        snakeCtx.stroke();
-    }
-    for (let y = 0; y <= SNAKE_GRID_HEIGHT; y++) {
-        snakeCtx.beginPath();
-        snakeCtx.moveTo(0, y * SNAKE_TILE_SIZE);
-        snakeCtx.lineTo(snakeCanvas.width, y * SNAKE_TILE_SIZE);
-        snakeCtx.stroke();
-    }
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem('snakeHighScore', highScore);
+    document.getElementById('snakeHighScore').textContent = highScore;
+  }
 
-    // Draw food
-    snakeCtx.fillStyle = '#306230';
-    snakeCtx.fillRect(
-        snakeFood.x * SNAKE_TILE_SIZE,
-        snakeFood.y * SNAKE_TILE_SIZE,
-        SNAKE_TILE_SIZE,
-        SNAKE_TILE_SIZE
-    );
-
-    // Draw snake
-    snake.forEach((segment, index) => {
-        // Head is darker
-        snakeCtx.fillStyle = index === 0 ? '#0f380f' : '#306230';
-        snakeCtx.fillRect(
-            segment.x * SNAKE_TILE_SIZE,
-            segment.y * SNAKE_TILE_SIZE,
-            SNAKE_TILE_SIZE,
-            SNAKE_TILE_SIZE
-        );
-        
-        // Add a subtle border to snake segments
-        snakeCtx.strokeStyle = index === 0 ? '#9bbc0f' : '#0f380f';
-        snakeCtx.lineWidth = 1;
-        snakeCtx.strokeRect(
-            segment.x * SNAKE_TILE_SIZE,
-            segment.y * SNAKE_TILE_SIZE,
-            SNAKE_TILE_SIZE,
-            SNAKE_TILE_SIZE
-        );
-    });
+  document.getElementById('snakeFinalScore').textContent = score;
+  document.getElementById('snakeGameOverScreen').classList.add('show');
 }
 
-function flashFoodEaten() {
-    // Simple visual feedback when food is eaten
-    snakeCtx.fillStyle = '#9bbc0f';
-    snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
-    setTimeout(drawSnakeGame, 50);
-}
-
-function endSnakeGame() {
-    snakeRunning = false;
-    snakeGameOver = true;
-    clearInterval(snakeGameLoop);
-    
-    // Update high score if needed
-    if (snakeScore > snakeHighScore) {
-        snakeHighScore = snakeScore;
-        localStorage.setItem('snakeHighScore', snakeHighScore);
-        snakeHighScoreElement.textContent = snakeHighScore;
-    }
-    
-    snakeFinalScoreElement.textContent = snakeScore;
-    snakeGameOverScreen.classList.add('show');
-}
-
-function updateSnakeScore() {
-    snakeScoreElement.textContent = snakeScore;
-}
-
+/* ── Public Controls (called from HTML onclick) ── */
 function restartSnakeGame() {
-    startSnakeGame();
+  startGame();
 }
 
 function pauseSnakeGame() {
-    if (snakeGameOver) return;
-    
-    snakePaused = !snakePaused;
-    const pauseBtn = document.querySelector('.game-btn:nth-child(1)');
-    if (snakePaused) {
-        pauseBtn.innerHTML = '<i class="fas fa-play"></i> Resume';
-        // Draw "PAUSED" text on canvas
-        snakeCtx.fillStyle = 'rgba(15, 56, 15, 0.8)';
-        snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
-        snakeCtx.fillStyle = '#9bbc0f';
-        snakeCtx.font = 'bold 30px Arial';
-        snakeCtx.textAlign = 'center';
-        snakeCtx.textBaseline = 'middle';
-        snakeCtx.fillText('PAUSED', snakeCanvas.width / 2, snakeCanvas.height / 2);
-    } else {
-        pauseBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
-    }
+  if (gameOver) return;
+
+  paused = !paused;
+  const pauseBtn = document.querySelector('.game-btn:first-child');
+
+  if (paused) {
+    pauseBtn.innerHTML = '<i class="fas fa-play"></i> Resume';
+    // Draw paused overlay
+    snakeCtx.fillStyle    = 'rgba(15, 56, 15, 0.88)';
+    snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+    snakeCtx.fillStyle    = '#9bbc0f';
+    snakeCtx.font         = 'bold 26px Orbitron, Arial';
+    snakeCtx.textAlign    = 'center';
+    snakeCtx.textBaseline = 'middle';
+    snakeCtx.fillText('PAUSED', snakeCanvas.width / 2, snakeCanvas.height / 2);
+  } else {
+    pauseBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+  }
 }
 
-// Keyboard controls for Snake Game
-document.addEventListener('keydown', (e) => {
-    // Only handle game keys if we're in the projects section
-    const projectsSection = document.getElementById('projects');
-    const rect = projectsSection.getBoundingClientRect();
-    const isInProjectsSection = rect.top <= window.innerHeight && rect.bottom >= 0;
-    
-    if (!isInProjectsSection) return;
-    
-    if (snakeGameOver && (e.code === 'Space' || e.code === 'Enter')) {
-        restartSnakeGame();
-        e.preventDefault();
-        return;
-    }
+/* ── Keyboard Controls ── */
+document.addEventListener('keydown', e => {
+  // Only intercept arrow keys if the projects section is visible
+  const projectsSection = document.getElementById('projects');
+  const rect = projectsSection.getBoundingClientRect();
+  const inView = rect.top <= window.innerHeight && rect.bottom >= 0;
+  if (!inView) return;
 
-    if (e.code === 'Space') {
-        pauseSnakeGame();
-        e.preventDefault();
-        return;
-    }
+  // Space: pause or restart
+  if (e.code === 'Space') {
+    e.preventDefault();
+    if (gameOver) restartSnakeGame();
+    else          pauseSnakeGame();
+    return;
+  }
 
-    if (!snakeRunning || snakePaused) return;
+  if (!running || paused) return;
 
-    switch (e.key) {
-        case 'ArrowUp':
-        case 'w':
-        case 'W':
-            if (snakeDirection !== 'DOWN') snakeNextDirection = 'UP';
-            e.preventDefault();
-            break;
-        case 'ArrowDown':
-        case 's':
-        case 'S':
-            if (snakeDirection !== 'UP') snakeNextDirection = 'DOWN';
-            e.preventDefault();
-            break;
-        case 'ArrowLeft':
-        case 'a':
-        case 'A':
-            if (snakeDirection !== 'RIGHT') snakeNextDirection = 'LEFT';
-            e.preventDefault();
-            break;
-        case 'ArrowRight':
-        case 'd':
-        case 'D':
-            if (snakeDirection !== 'LEFT') snakeNextDirection = 'RIGHT';
-            e.preventDefault();
-            break;
-    }
+  const dirMap = {
+    ArrowUp:    'UP',    w: 'UP',    W: 'UP',
+    ArrowDown:  'DOWN',  s: 'DOWN',  S: 'DOWN',
+    ArrowLeft:  'LEFT',  a: 'LEFT',  A: 'LEFT',
+    ArrowRight: 'RIGHT', d: 'RIGHT', D: 'RIGHT'
+  };
+
+  const opposite = { UP: 'DOWN', DOWN: 'UP', LEFT: 'RIGHT', RIGHT: 'LEFT' };
+  const newDir   = dirMap[e.key];
+
+  if (newDir && opposite[newDir] !== dir) {
+    nextDir = newDir;
+    // Prevent page scroll on arrow keys
+    if (e.key.startsWith('Arrow')) e.preventDefault();
+  }
 });
-
-// Initialize Snake Game when page loads
-window.addEventListener('load', initSnakeGame);
